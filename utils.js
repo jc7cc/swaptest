@@ -11,6 +11,7 @@ export const delay = (second) => {
     setTimeout(resolve, second * 1000);
   });
 };
+
 export const afterPercent = (amount, percent) => {
   const BN = web3.utils.BN;
   const amountBN = new BN(amount);

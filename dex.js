@@ -138,12 +138,6 @@ async function sendTx_(
   }
 }
 
-function delay(second) {
-  return new Promise((resolve, _reject) => {
-    setTimeout(resolve, 1000 * second);
-  });
-}
-
 async function buyBNB(amount, price) {
   try {
     const receipt = await sendTx_(
@@ -350,3 +344,8 @@ async function sellLog() {
     }
   }
 }
+
+export const dex = {
+  buy: buyLog,
+  sell: sellLog,
+};
