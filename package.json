@@ -1,0 +1,23 @@
+{
+  "name": "swaptest",
+  "version": "0.0.1",
+  "description": "find a optimal way to swap between bnb and busd on pancakeswap",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jc7cc/swaptest.git"
+  },
+  "author": "jc7cc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jc7cc/swaptest/issues"
+  },
+  "homepage": "https://github.com/jc7cc/swaptest#readme",
+  "dependencies": {
+    "web3": "^1.8.1"
+  }
+}
