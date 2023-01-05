@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import { routerv2ABI } from "./routerV2";
+import { routerv2ABI } from "./routerV2.js";
 
 export const web3 = new Web3("http://176.9.92.6:8000");
 
