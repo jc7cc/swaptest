@@ -337,7 +337,7 @@ async function sellLog() {
   const res = await sellBNB(env.amount, sellInfo.price);
   let data;
   if (res.status === status.success) {
-    fs.appendFileSync("log", data);
+    const transferInfo = decodeLog(res.receipt, env.gasPrice);
     data =
       `${buyinfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}`;
     fs.appendFileSync("log", data);
