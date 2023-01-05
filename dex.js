@@ -133,7 +133,6 @@ async function sendTx_(
     );
     return web3.eth.sendSignedTransaction(tx);
   } catch (err) {
-    console.log(err);
     throw err;
   }
 }
@@ -168,7 +167,6 @@ async function buyBNB(amount, price) {
       receipt: receipt,
     };
   } catch (err) {
-    console.log(err);
     return {
       status: status.fail,
     };
@@ -206,7 +204,6 @@ const sellBNB = async (amountIn, price) => {
       receipt: receipt,
     };
   } catch (err) {
-    console.log(err);
     return {
       status: status.fail,
     };
