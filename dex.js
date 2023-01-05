@@ -23,7 +23,10 @@ const type = {
 
 async function getAmountsOut(amountsIn, path) {
   try {
-    const res = await router.methods.getAmountsOut(amountsIn, path).call();
+    const res = await router.methods.getAmountsOut(
+      web3.utils.toWei(amountsIn),
+      path,
+    ).call();
     return {
       status: status.success,
       amountIn: res[0],
@@ -40,7 +43,10 @@ async function getAmountsOut(amountsIn, path) {
 
 async function getAmountsIn(amountsOut, path) {
   try {
-    const res = await router.methods.getAmountsIn(amountsOut, path).call();
+    const res = await router.methods.getAmountsIn(
+      web3.utils.toWei(amountsOut),
+      path,
+    ).call();
     return {
       status: status.success,
       amountIn: res[0],
