@@ -5,4 +5,7 @@ const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 
 export const env = {
   account: account,
+  gasPrice: "5",
+  slippage: 0.01, // percentage
+  amount: "0.1",
 };
