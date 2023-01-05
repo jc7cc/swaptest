@@ -58,10 +58,11 @@ async function getAmountsIn(amountsOut, path) {
 async function getBNBPrice(swapType) {
   switch (swapType) {
     case type.buy:
-      return await getAmountsIn("0.1", [BUSD, WBNB]);
+      return await getAmountsIn("0.1", [token.BUSD, token.WBNB]);
     case type.sell:
-      return await getAmountsOut("0.1", [WBNB, BUSD]);
+      return await getAmountsOut("0.1", [token.WBNB, token.BUSD]);
   }
 }
 
-getBNBPrice().then(console.log);
+getBNBPrice(type.buy).then(console.log);
+getBNBPrice(type.sell).then(console.log);
