@@ -184,7 +184,7 @@ const sellBNB = async (amountIn, price) => {
       "200000",
       web3.utils.toWei("5", "Gwei"),
       router.methods.swapExactETHForTokens(
-        web3.utils.toWei(String((amountIn / price) * (1 - env.slippage))),
+        web3.utils.toWei(String((price * amountIn) * (1 - env.slippage))),
         [token.WBNB, token.BUSD],
         env.account.address,
         Math.floor(Date.now() / 1000) + 1000 * 60,
