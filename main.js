@@ -1,17 +1,18 @@
 import { dex } from "./dex.js";
-import { env } from "./env.js";
 
 let startFrom = "sell";
 
 async function main() {
   if (startFrom === "sell") {
-    startFrom = "buy";
     dex.sell();
+    startFrom = "buy";
+    return;
   }
 
   if (startFrom === "buy") {
-    startFrom = "sell";
     dex.buy();
+    startFrom = "sell";
+    return;
   }
 }
 
