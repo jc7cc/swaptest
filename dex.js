@@ -199,12 +199,12 @@ const sellBNB = async (amountIn, price) => {
       };
     }
 
+    console.log("shit");
     return {
       status: status.fail,
       receipt: receipt,
     };
   } catch (err) {
-    console.log(err);
     return {
       status: status.fail,
     };
