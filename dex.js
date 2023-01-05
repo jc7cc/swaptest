@@ -314,7 +314,7 @@ async function buyLog() {
   if (res.status === status.success) {
     const transferInfo = decodeLog(res.receipt, env.gasPrice);
     data =
-      `${buyinfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}`;
+      `${buyinfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${res.receipt.transactionHash}`;
     fs.appendFileSync("log", data);
   } else {
     if (res.receipt) {
@@ -333,7 +333,7 @@ async function sellLog() {
   if (res.status === status.success) {
     const transferInfo = decodeLog(res.receipt, env.gasPrice);
     data =
-      `${sellInfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}`;
+      `${sellInfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${res.receipt.transactionHash}`;
     fs.appendFileSync("log", data);
   } else {
     if (res.receipt) {

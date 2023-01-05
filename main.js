@@ -1,6 +1,6 @@
 import { dex } from "./dex.js";
 
-let startFrom = "sell";
+let startFrom = "buy";
 
 async function main() {
   if (startFrom === "sell") {
