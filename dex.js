@@ -204,6 +204,8 @@ const sellBNB = async (amountIn, price) => {
       receipt: receipt,
     };
   } catch (err) {
+    console.log("msg", err.message);
+    console.log("receipt", err.receipt);
     return {
       status: status.fail,
     };
