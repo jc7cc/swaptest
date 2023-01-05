@@ -317,7 +317,7 @@ async function buyLog() {
       `${buyinfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}`;
     fs.appendFileSync("log", data);
   } else {
-    if (receipt) {
+    if (res.receipt) {
       const transferInfo = decodeLog(res.receipt, env.gasPrice);
       data =
         `${buyinfo.price},${env.slippage}%,0,0,0,0,0,${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}`;
@@ -336,7 +336,7 @@ async function sellLog() {
       `${buyinfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}`;
     fs.appendFileSync("log", data);
   } else {
-    if (receipt) {
+    if (res.receipt) {
       const transferInfo = decodeLog(res.receipt, env.gasPrice);
       data =
         `${buyinfo.price},${env.slippage}%,0,0,0,0,0,${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}`;
