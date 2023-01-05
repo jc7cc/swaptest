@@ -31,7 +31,7 @@ async function getAmountsOut(amountsIn, path) {
       status: status.success,
       amountIn: res[0],
       amountOut: res[1],
-      price: +(+web3.utils.fromWei(res[0]) / +web3.utils.fromWei(res[1]))
+      price: +(+web3.utils.fromWei(res[1]) / +web3.utils.fromWei(res[0]))
         .toFixed(2),
     };
   } catch (err) {
@@ -51,7 +51,7 @@ async function getAmountsIn(amountsOut, path) {
       status: status.success,
       amountIn: res[0],
       amountOut: res[1],
-      price: +(+web3.utils.fromWei(res[1]) / +web3.utils.fromWei(res[0]))
+      price: +(+web3.utils.fromWei(res[0]) / +web3.utils.fromWei(res[1]))
         .toFixed(2),
     };
   } catch (err) {
