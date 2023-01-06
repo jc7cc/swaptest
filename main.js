@@ -16,5 +16,8 @@ async function main() {
   }
 }
 
-main();
-//setInterval(main, 1000 * 60);
+if (process.arch[4] === "iterate") {
+  setInterval(main, 1000 * 10);
+} else {
+  main();
+}
