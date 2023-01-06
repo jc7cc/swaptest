@@ -155,24 +155,14 @@ async function buyBNB(amount, price) {
       ).encodeABI(),
     );
 
-    if (receipt.status) {
-      return {
-        status: status.success,
-        receipt: receipt,
-      };
-    }
-
-    console.log("fail receipt", receipt);
     return {
-      status: status.fail,
+      status: status.success,
       receipt: receipt,
     };
   } catch (err) {
-    console.log("err", err);
-    console.log("msg", err.message);
-    console.log("receipt", err.receipt);
     return {
       status: status.fail,
+      receipt: err.receipt,
     };
   }
 }
@@ -196,20 +186,14 @@ const sellBNB = async (amountIn, price) => {
       ).encodeABI(),
     );
 
-    if (receipt.status) {
-      return {
-        status: status.success,
-        receipt: receipt,
-      };
-    }
-
     return {
-      status: status.fail,
+      status: status.success,
       receipt: receipt,
     };
   } catch (err) {
     return {
       status: status.fail,
+      receipt: err.receipt,
     };
   }
 };
@@ -320,15 +304,16 @@ async function buyLog() {
     const transferInfo = decodeLog(res.receipt, env.gasPrice);
     data =
       `${buyinfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${res.receipt.transactionHash}\n`;
-    fs.appendFileSync("log", data);
   } else {
     if (res.receipt) {
       const transferInfo = decodeLog(res.receipt, env.gasPrice);
       data =
-        `${buyinfo.price},${env.slippage}%,0,0,0,0,0,${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}\n`;
-      fs.appendFileSync("log", data);
+        `${buyinfo.price},${env.slippage}%,0,0,0,0,0,${transferInfo.gasUsed},${transferInfo.txFee},${res.receipt.transactionHash}\n`;
+    } else {
+      data = `${buyinfo.price},${env.slippage}%,0,0,0,0,0,0,0,${res.err}\n`;
     }
   }
+  fs.appendFileSync("log", data);
 }
 
 async function sellLog() {
@@ -339,15 +324,16 @@ async function sellLog() {
     const transferInfo = decodeLog(res.receipt, env.gasPrice);
     data =
       `${sellInfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${res.receipt.transactionHash}\n`;
-    fs.appendFileSync("log", data);
   } else {
     if (res.receipt) {
       const transferInfo = decodeLog(res.receipt, env.gasPrice);
       data =
-        `${sellInfo.price},${env.slippage}%,0,0,0,0,0,${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}\n`;
-      fs.appendFileSync("log", data);
+        `${sellInfo.price},${env.slippage}%,0,0,0,0,0,${transferInfo.gasUsed},${transferInfo.txFee},${res.receipt.transactionHash}\n`;
+    } else {
+      data = `${sellInfo.price},${env.slippage}%,0,0,0,0,0,0,0,${res.err}\n`;
     }
   }
+  fs.appendFileSync("log", data);
 }
 
 export const dex = {
