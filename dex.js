@@ -61,7 +61,7 @@ async function getAmountsIn(amountsOut, path) {
   }
 }
 
-async function getBNBPrice(swapType) {
+async function getBNBPrice(bnbAmount, swapType) {
   switch (swapType) {
     case type.buy:
       return await getAmountsIn("0.1", [token.BUSD, token.WBNB]);
@@ -339,4 +339,5 @@ async function sellLog() {
 export const dex = {
   buy: buyLog,
   sell: sellLog,
+  getPrice: getBNBPrice,
 };
