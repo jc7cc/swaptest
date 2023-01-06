@@ -16,7 +16,8 @@ async function main() {
   }
 }
 
-if (process.arch[4] === "iterate") {
+if (process.argv[4] === "iterate") {
+  console.log("start");
   setInterval(main, 1000 * 10);
 } else {
   main();
