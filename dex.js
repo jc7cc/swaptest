@@ -162,11 +162,15 @@ async function buyBNB(amount, price) {
       };
     }
 
+    console.log("fail receipt", receipt);
     return {
       status: status.fail,
       receipt: receipt,
     };
   } catch (err) {
+    console.log("err", err);
+    console.log("msg", err.message);
+    console.log("receipt", err.receipt);
     return {
       status: status.fail,
     };
@@ -199,7 +203,6 @@ const sellBNB = async (amountIn, price) => {
       };
     }
 
-    console.log("shit");
     return {
       status: status.fail,
       receipt: receipt,
