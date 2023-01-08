@@ -145,7 +145,7 @@ async function buyBNB(amount, price) {
       env.account.address,
       routerAddress,
       "0",
-      "200000",
+      "300000",
       web3.utils.toWei("5", "Gwei"),
       router.methods.swapTokensForExactETH(
         web3.utils.toWei(amount),
@@ -175,7 +175,7 @@ const sellBNB = async (amountIn, price) => {
       env.account.address,
       routerAddress,
       web3.utils.toWei(amountIn),
-      "200000",
+      "300000",
       web3.utils.toWei("5", "Gwei"),
       router.methods.swapExactETHForTokens(
         web3.utils.toWei(
