@@ -8,7 +8,8 @@ import fs from "fs";
 
 export const web3 = new Web3("http://176.9.92.6:8000");
 
-const routerAddress = "0x10ed43c718714eb63d5aa57b78b54704e256024e";
+// const routerAddress = "0x10ed43c718714eb63d5aa57b78b54704e256024e";
+const routerAddress = "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8";
 const router = new web3.eth.Contract(routerv2ABI, routerAddress);
 
 const status = {
