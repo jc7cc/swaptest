@@ -298,7 +298,7 @@ export const decodeLog = (receipt, gasPrice) => {
 };
 
 async function buyLog() {
-  const buyinfo = await getBNBPrice(type.buy);
+  const buyinfo = await getBNBPrice("1", type.buy);
   const res = await buyBNB(env.amount, buyinfo.price);
   let data;
   if (res.status === status.success) {
@@ -318,7 +318,7 @@ async function buyLog() {
 }
 
 async function sellLog() {
-  const sellInfo = await getBNBPrice(type.sell);
+  const sellInfo = await getBNBPrice("1", type.sell);
   const res = await sellBNB(env.amount, sellInfo.price);
   let data;
   if (res.status === status.success) {
