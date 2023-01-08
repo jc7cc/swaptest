@@ -1,19 +1,24 @@
 import { dex } from "./dex.js";
-import { env } from "./env.js";
 
-let startFrom = "sell";
+let startFrom = process.argv[3];
 
 async function main() {
   if (startFrom === "sell") {
-    startFrom = "buy";
     dex.sell();
+    startFrom = "buy";
+    return;
   }
 
   if (startFrom === "buy") {
-    startFrom = "sell";
     dex.buy();
+    startFrom = "sell";
+    return;
   }
 }
 
-main();
-//setInterval(main, 1000 * 60);
+if (process.argv[4] === "iterate") {
+  console.log("start");
+  setInterval(main, 1000 * 10);
+} else {
+  main();
+}

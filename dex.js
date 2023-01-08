@@ -62,12 +62,12 @@ async function getAmountsIn(amountsOut, path) {
   }
 }
 
-async function getBNBPrice(swapType) {
+async function getBNBPrice(bnbAmount, swapType) {
   switch (swapType) {
     case type.buy:
-      return await getAmountsIn("0.1", [token.BUSD, token.WBNB]);
+      return await getAmountsIn(bnbAmount, [token.BUSD, token.WBNB]);
     case type.sell:
-      return await getAmountsOut("0.1", [token.WBNB, token.BUSD]);
+      return await getAmountsOut(bnbAmount, [token.WBNB, token.BUSD]);
   }
 }
 
@@ -134,7 +134,6 @@ async function sendTx_(
     );
     return web3.eth.sendSignedTransaction(tx);
   } catch (err) {
-    console.log(err);
     throw err;
   }
 }
@@ -150,27 +149,21 @@ async function buyBNB(amount, price) {
       web3.utils.toWei("5", "Gwei"),
       router.methods.swapTokensForExactETH(
         web3.utils.toWei(amount),
-        web3.utils.toWei(amount * price * (1 + env.slippage)),
+        web3.utils.toWei(String(amount * price * (1 + env.slippage * 0.01))),
         [token.BUSD, token.WBNB],
         env.account.address,
         Math.floor(Date.now() / 1000) + 1000 * 60,
       ).encodeABI(),
     );
 
-    if (receipt.status) {
-      return {
-        status: status.success,
-        receipt: receipt,
-      };
-    }
-
     return {
-      status: status.fail,
+      status: status.success,
+      receipt: receipt,
     };
   } catch (err) {
-    console.log(err);
     return {
       status: status.fail,
+      receipt: err.receipt,
     };
   }
 }
@@ -185,27 +178,23 @@ const sellBNB = async (amountIn, price) => {
       "200000",
       web3.utils.toWei("5", "Gwei"),
       router.methods.swapExactETHForTokens(
-        web3.utils.toWei((amountIn / price) * (1 - env.slippage)),
+        web3.utils.toWei(
+          String((price * amountIn) * (1 - env.slippage * 0.01)),
+        ),
         [token.WBNB, token.BUSD],
         env.account.address,
         Math.floor(Date.now() / 1000) + 1000 * 60,
       ).encodeABI(),
     );
 
-    if (receipt.status) {
-      return {
-        status: status.success,
-        receipt: receipt,
-      };
-    }
-
     return {
-      status: status.fail,
+      status: status.success,
+      receipt: receipt,
     };
   } catch (err) {
-    console.log(err);
     return {
       status: status.fail,
+      receipt: err.receipt,
     };
   }
 };
@@ -315,16 +304,17 @@ async function buyLog() {
   if (res.status === status.success) {
     const transferInfo = decodeLog(res.receipt, env.gasPrice);
     data =
-      `${buyinfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}`;
-    fs.appendFileSync("log", data);
+      `${buyinfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${res.receipt.transactionHash}\n`;
   } else {
     if (res.receipt) {
       const transferInfo = decodeLog(res.receipt, env.gasPrice);
       data =
-        `${buyinfo.price},${env.slippage}%,0,0,0,0,0,${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}`;
-      fs.appendFileSync("log", data);
+        `${buyinfo.price},${env.slippage}%,0,0,0,0,0,${transferInfo.gasUsed},${transferInfo.txFee},${res.receipt.transactionHash}\n`;
+    } else {
+      data = `${buyinfo.price},${env.slippage}%,0,0,0,0,0,0,0,${res.err}\n`;
     }
   }
+  fs.appendFileSync("log", data);
 }
 
 async function sellLog() {
@@ -334,19 +324,21 @@ async function sellLog() {
   if (res.status === status.success) {
     const transferInfo = decodeLog(res.receipt, env.gasPrice);
     data =
-      `${buyinfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}`;
-    fs.appendFileSync("log", data);
+      `${sellInfo.price},${env.slippage}%,${transferInfo.bnbIn},${transferInfo.bnbOut},${transferInfo.busdIn},${transferInfo.busdOut},${transferInfo.gasPrice},${transferInfo.gasUsed},${transferInfo.txFee},${res.receipt.transactionHash}\n`;
   } else {
     if (res.receipt) {
       const transferInfo = decodeLog(res.receipt, env.gasPrice);
       data =
-        `${buyinfo.price},${env.slippage}%,0,0,0,0,0,${transferInfo.gasUsed},${transferInfo.txFee},${receipt.transactionHash}`;
-      fs.appendFileSync("log", data);
+        `${sellInfo.price},${env.slippage}%,0,0,0,0,0,${transferInfo.gasUsed},${transferInfo.txFee},${res.receipt.transactionHash}\n`;
+    } else {
+      data = `${sellInfo.price},${env.slippage}%,0,0,0,0,0,0,0,${res.err}\n`;
     }
   }
+  fs.appendFileSync("log", data);
 }
 
 export const dex = {
   buy: buyLog,
   sell: sellLog,
+  getPrice: getBNBPrice,
 };
